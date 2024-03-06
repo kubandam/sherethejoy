@@ -1,0 +1,16 @@
+
+
+/ -> homepage
+    
+    GET:  /collection/new -> form for new collection
+    POST: /collection/new -> create new collection (title,email,password), create :token:(16 random string), redirect to /:token:
+
+            GET: /collection/:token: -> dashboard of collection, access only if :token: exist in DB
+            GET: /collection/:token:/qr -> show QR code for collection, after scen redirect to /:token:
+
+
+    GET:  /collection/open -> form for open collection
+    POST: /collection/open -> open collection (email,password), redirect to /:token:
+    
+            GET: /collection/:token: -> dashboard of collection, access only if :token: exist in DB
+            GET: /collection/:token:/qr -> show QR code for collection, after scen redirect to /:token:
