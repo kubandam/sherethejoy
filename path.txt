@@ -14,3 +14,7 @@
     
             GET: /collection/:token: -> dashboard of collection, access only if :token: exist in DB
             GET: /collection/:token:/qr -> show QR code for collection, after scen redirect to /:token:
+
+
+
+mongodb://localhost:27017/
