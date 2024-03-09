@@ -20,7 +20,7 @@ const AfterScan = () => {
     }
 
     try {
-      const response = await axios.post(`http://192.168.100.16:8080/collection/${token}/upload`, formData, {
+      const response = await axios.post(`http://192.168.1.30:8080/collection/${token}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -29,7 +29,7 @@ const AfterScan = () => {
 
       // Update the image paths state with the response
       const uploadedFilePaths = response.data.filePaths; // Adjust according to your actual response structure
-      setImagePaths(uploadedFilePaths.map(path => `http://192.168.100.16:8080${path}`)); // Prepend your server URL to the path
+      setImagePaths(uploadedFilePaths.map(path => `http://192.168.1.30:8080${path}`)); // Prepend your server URL to the path
     } catch (error) {
       console.error('Error uploading file:', error);
     }

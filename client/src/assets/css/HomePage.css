@@ -1,0 +1,155 @@
+.page {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: flex; /* Enable flexbox */
+    align-items: center; /* Center children vertically */
+    justify-content: center; /* Center children horizontally */
+  }
+  
+  .gradient {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    object-fit: cover; /* Cover the area without stretching */
+    z-index: -1; /* It's okay to stay as long as there's no background on .page */
+  }
+  
+  .container {
+    display: flex;
+    width: calc(100% - 300px); /* Full width minus the horizontal margins */
+    margin: 0 150px; /* Horizontal margin */
+    max-width: 1200px; /* Optional: maximum width of the container */
+    position: relative; /* Establish a stacking context */
+    z-index: 0; /* Ensures it's above the gradient */
+  }
+  
+  .left, .right {
+    flex: 1; /* Divide the space equally */
+  }
+  
+  .form {    
+    width: 500px;
+    min-height: 570px;
+    background-color: #ffffff96;
+    margin-right: auto; /* Push .form to the left side */
+    margin-left: auto; /* Push .form to the right side */
+    /* Ensure that the .form stays above the gradient as well */
+    position: relative;
+    z-index: 1;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .form.login_page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h2{
+    color: #2e4256be;
+    font-size: 32px;
+  }
+  .line{
+    width: 88%;
+    margin: 0 auto;
+    height: 1px;
+    background-color: #2e4256be;
+    opacity: 20%;
+    border-radius: 50px;
+
+  }
+  .form-floating{
+    width: 90%;
+    margin: 0 auto;
+  }
+  .form-floating input{
+    position: relative;
+    background-color: #ffffffa9 !important;
+  }
+  small{
+    font-size: 11px;
+    opacity: 70%;
+    font-style: italic;
+    padding-left: 5px;
+  }
+  .form-floating label{
+    color: #36597D;
+    opacity: 80%;
+    background-color: transparent;
+  }
+  
+  .form-floating label::after{
+    color: #36597D;
+    opacity: 80%;
+    background-color: transparent !important;
+}
+  .form-control {
+    border-radius: 0.5rem;
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: transparent;
+    box-shadow:none;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .custom-button {
+    width: 217px;
+    height: 63px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px; /* Adjust the font size as needed */
+    border-radius: 50px; /* Gives the button rounded corners */
+    border: none; /* Removes the border */
+    color: #36597D; /* Text color */
+    font-weight: 600;
+    background-color: #f1f3f45e;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft box shadow for depth */
+    cursor: pointer; /* Changes the cursor to indicate it's clickable */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+  }
+  
+  .custom-button:hover {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Slightly larger shadow on hover for a "lifting" effect */
+    transform: translateY(-2px); /* Moves the button up a bit on hover */
+  }
+  
+  .custom-button:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Smaller shadow for a "pressed" effect */
+    transform: translateY(1px); /* Moves the button down a bit to simulate being pressed */
+  }
+
+  .login{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    font-size: 15px;
+    color: #36597D;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  /* Add responsive design if necessary */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+    
+    .left, .right {
+      width: 100%;
+    }
+  }

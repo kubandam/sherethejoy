@@ -4,6 +4,7 @@ const cors = require('cors');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
+const bcrypt = require('bcrypt');
 
 const app = express();
 app.use(cors());
@@ -32,6 +33,7 @@ const upload = multer({ storage: storage });
 mongoose.connect('mongodb://127.0.0.1:27017/sherethejoy', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const Collection = require('./models/Collection'); // Assuming you have a User model
+const User = require('./models/User'); // Ensure this path is correct
 
 const generateRandomString = () => {
     let result = '';
@@ -42,17 +44,45 @@ const generateRandomString = () => {
     }
     return result;
 }
-
-app.post('/collection/new',async(req,res)=>{
+app.post('/collection/new', async (req, res) => {
   try {
-    const newCollection = new Collection(req.body);
-    newCollection.token = generateRandomString();
+    const newCollection = new Collection({
+      title: req.body.title,
+      token: generateRandomString(), 
+    });
     await newCollection.save();
-    res.status(201).json({ message: 'Collection created successfully', token: newCollection.token });
+    const hashedPassword = bcrypt.hashSync(req.body.password, 10);
+    const user = new User({ 
+      email: req.body.email, 
+      password: hashedPassword,
+      collection: newCollection._id 
+    });
+    await user.save();
+    res.status(201).json({ message: 'Collection and user created successfully', token: newCollection.token });
   } catch (error) {
     res.status(500).send(error.message);
   }
-})
+});
+
+app.post('/collection/verify', async (req, res) => {
+  try {
+    const users = await User.find({ email: req.body.email });
+    const user = users.find(user => bcrypt.compareSync(req.body.password, user.password));
+
+    if (!user) {
+      return res.status(401).json({ message: 'Incorrect email or password.' });
+    }
+    const collection = await Collection.findById(user.collection).select('token title -_id');
+    if (collection) {
+      res.json({ message: 'Collection found', token: collection.token });
+    } else {
+      res.status(404).json({ message: 'No collection associated with this user.' });
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 
 app.get('/collection/:token', async (req, res) => {
   const token = req.params.token;
@@ -69,18 +99,6 @@ app.get('/collection/:token', async (req, res) => {
 });
 
 
-app.post('/collection/verify', async (req, res) => {
-  try {
-    const collection = await Collection.findOne({ email: req.body.email,password: req.body.password });
-    if (collection){ //&& bcrypt.compareSync(req.body.password, collection.password)) {
-      res.json({ token: collection.token });
-    } else {
-      res.status(401).json({ message: 'Incorrect email or password.' });
-    }
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
