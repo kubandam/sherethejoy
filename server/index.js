@@ -98,21 +98,39 @@ app.get('/collection/:token', async (req, res) => {
   }
 });
 
-
-
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
 app.post('/collection/:token/upload', upload.array('files'), async (req, res) => {
   try {
     let filePaths = req.files.map(file => {
       return `/uploads/${req.params.token}/${file.filename}`;
     });
-    console.log('Uploaded file paths:', filePaths);
     res.send({ message: 'Files uploaded successfully', filePaths: filePaths });
   } catch (error) {
-    console.error(error);
     res.status(500).send({ message: 'Error uploading files', error: error.toString() });
   }
 });
 
+app.get('/collection/:token/photos', (req, res) => {
+  try {
+    const token = req.params.token;
+    const uploadsDir = path.join(__dirname, 'uploads', token);
+    fs.access(uploadsDir, fs.constants.F_OK, (err) => {
+      if (err) {
+        return res.status(201).send({ message: 'FILE_NOT_EXISTS' });
+      } else {
+        fs.readdir(uploadsDir, (err, files) => {
+          if (err) {
+            throw err; // Or handle more gracefully
+          }
+          const filePaths = files.map(file => `/uploads/${token}/${file}`);
+          res.send({ message: 'Photos fetched successfully', filePaths: filePaths });
+        });
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error fetching photos', error: error.toString() });
+  }
+});
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.listen(8080, '0.0.0.0', () => console.log(`Server is listening on port 8080`));

@@ -42,7 +42,7 @@ function HomePage() {
     if (!validateForm()) return;
 
     const payload = isLogin ? { email, password } : { title: collectionName, email, password };
-    const endpoint = isLogin ? 'http://192.168.1.30:8080/collection/verify' : 'http://192.168.1.30:8080/collection/new';
+    const endpoint = isLogin ? process.env.REACT_APP_API+'/collection/verify' : process.env.REACT_APP_API+'/collection/new';
     
     try {
         const response = await axios.post(endpoint, payload);

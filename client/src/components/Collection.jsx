@@ -12,10 +12,10 @@ function Collection() {
   useEffect(() => {
     const fetchCollection = async () => {
       try {
-        const response = await axios.get(`http://192.168.1.30:8080/collection/${token}`);
+        const response = await axios.get(process.env.REACT_APP_API+`/collection/${token}`);
         setCollection(response.data.collection); 
         setError(''); 
-        setQrValue(`http://192.168.1.30:3000/collection/${token}/qr`);
+        setQrValue(process.env.REACT_APP_API+`/collection/${token}/qr`);
       } catch (error) {
         if (error.response) {
           setError(error.response.data.message);
