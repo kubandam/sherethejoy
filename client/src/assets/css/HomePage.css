@@ -17,7 +17,7 @@
     right: 0;
     bottom: 0;
     object-fit: cover; /* Cover the area without stretching */
-    z-index: -1; /* It's okay to stay as long as there's no background on .page */
+    z-index: 0; /* It's okay to stay as long as there's no background on .page */
   }
   
   .container {

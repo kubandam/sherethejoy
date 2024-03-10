@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../assets/css/HomePage.css';
 import gradient from '../assets/img/gradient.svg';
 
 function HomePage() {
+  require("../assets/css/HomePage.css"); // css
+  
   const [isLogin, setIsLogin] = useState(false);
   const [collectionName, setCollectionName] = useState('');
   const [email, setEmail] = useState('');
