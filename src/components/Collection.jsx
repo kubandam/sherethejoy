@@ -15,7 +15,7 @@ function Collection() {
         const response = await axios.get(process.env.REACT_APP_API+`/collection/${token}`);
         setCollection(response.data.collection); 
         setError(''); 
-        setQrValue(process.env.REACT_APP_QR+`/collection/${token}/qr`);
+        setQrValue(process.env.REACT_APP_APP+`/collection/${token}/qr`);
       } catch (error) {
         if (error.response) {
           setError(error.response.data.message);

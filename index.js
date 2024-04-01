@@ -5,11 +5,11 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcrypt');
+require('dotenv').config()
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-
 
 const baseDirectory = 'uploads';
 if (!fs.existsSync(baseDirectory)) {
@@ -28,9 +28,11 @@ const storage = multer.diskStorage({
   }
 });
 
+const port = process.env.REACT_APP_PORT || 8080;
+
 const upload = multer({ storage: storage });
 
-mongoose.connect('mongodb://127.0.0.1:27017/sherethejoy', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.REACT_APP_MONGODB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const Collection = require('./models/Collection'); // Assuming you have a User model
 const User = require('./models/User'); // Ensure this path is correct
@@ -133,4 +135,4 @@ app.get('/collection/:token/photos', (req, res) => {
 });
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.listen(8080, '0.0.0.0', () => console.log(`Server is listening on port 8080`));
+app.listen(port, '0.0.0.0', () => console.log(`Server is listening on port `+port));
